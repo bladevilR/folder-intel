@@ -5,15 +5,10 @@
 
 Turn messy Office and PDF folders into searchable, archived knowledge.
 
-## What is Folder Intel
+## What it does
 
-**English:** Folder Intel is an OpenClaw skill for indexing local folders of Word, Excel, PowerPoint, and PDF files, generating archive records for each file, and finding documents by extracted content instead of filename only.  
-**中文：** Folder Intel 是一个 OpenClaw skill，用于索引本地文件夹中的 Word、Excel、PowerPoint 和 PDF 文件，为每个文件生成归档记录，并按提取出的内容而不是仅按文件名来查找文档。
-
-## Why it exists
-
-**English:** Teams often have folders full of contracts, reports, policies, slides, and spreadsheets with weak naming and no searchable archive. Folder Intel gives that folder a deterministic local index.  
-**中文：** 很多团队都有一堆命名混乱、不可检索的合同、报告、制度、PPT 和表格。Folder Intel 给这类文件夹建立一个可重复、可本地运行的确定性索引。
+**English:** Folder Intel indexes local folders of Word, Excel, PowerPoint, and PDF files, generates archive records for each file, and finds documents by extracted content instead of filename only.  
+**中文：** Folder Intel 会索引本地文件夹中的 Word、Excel、PowerPoint 和 PDF 文件，为每个文件生成归档记录，并按提取出的内容而不是仅按文件名来查找文档。
 
 - archive every supported file into a reusable inventory
 - search by content, clause, invoice number, topic, or keyword
@@ -22,7 +17,7 @@ Turn messy Office and PDF folders into searchable, archived knowledge.
 
 ## Search keywords
 
-If users search GitHub or the web for any of these terms, this repo should be relevant:
+If users search GitHub or the web for these terms, this repo should be relevant:
 
 - OpenClaw skill
 - document archive skill
@@ -44,7 +39,7 @@ If users search GitHub or the web for any of these terms, this repo should be re
 - `pptx`
 - `pdf`
 
-## What it writes
+## Output
 
 Running `archive` creates a `.office-archive/` directory inside the target folder:
 
@@ -60,6 +55,12 @@ Recommended shared install location on Windows:
 %USERPROFILE%\.openclaw\skills\folder-intel\
 ```
 
+OpenClaw also supports per-workspace installs:
+
+```text
+<workspace>\skills\folder-intel\
+```
+
 Keep these files together inside the skill directory:
 
 ```text
@@ -69,18 +70,27 @@ folder-intel/
   scripts/
 ```
 
-OpenClaw also supports per-workspace installs:
-
-```text
-<workspace>\skills\folder-intel\
-```
-
 ## Requirements
 
+Required:
+
 - Python 3
-- Optional but recommended: `antiword` for higher-quality legacy `.doc` extraction
-- Optional but recommended: `pdftotext` for stronger PDF text extraction
+
+Optional but recommended:
+
+- `antiword` for higher-quality legacy `.doc` extraction
+- `pdftotext` for stronger PDF text extraction
 - Python packages used by the scripts may include `olefile`, `xlrd`, and `pypdf`
+
+## Verify install
+
+After copying the skill into the target OpenClaw skill directory, run:
+
+```bash
+python scripts/office_archive.py check
+```
+
+This confirms which formats and helpers are available on the current machine.
 
 ## Quick start
 
@@ -103,10 +113,29 @@ Inspect one file:
 python scripts/office_archive.py inspect "D:\Docs\Contracts\renewal.docx"
 ```
 
-Check machine support:
+## Example workflow
+
+Example target folder:
+
+```text
+D:\AI专班
+```
+
+Example archive output:
+
+```text
+D:\AI专班\.office-archive\
+  archive.md
+  archive.jsonl
+  index.sqlite
+```
+
+Example usage pattern:
 
 ```bash
-python scripts/office_archive.py check
+python scripts/office_archive.py archive "D:\AI专班"
+python scripts/office_archive.py search "D:\AI专班" "工单"
+python scripts/office_archive.py search "D:\AI专班" "AI大模型"
 ```
 
 ## Safety defaults
@@ -114,6 +143,22 @@ python scripts/office_archive.py check
 - Microsoft Office COM extraction is disabled by default
 - Legacy extraction stays conservative to avoid Office repair popups and interactive prompts
 - Re-runs reuse cached extraction results when files have not changed
+
+## Known limits
+
+- This is keyword and text extraction search, not vector semantic retrieval
+- Legacy binary Office formats are handled conservatively
+- Some damaged or non-standard files may only be partially indexed or skipped
+- `ppt` legacy extraction is intentionally stricter than modern `pptx`
+
+## Good fit
+
+- contract folders
+- report archives
+- bid and compliance materials
+- policy and process folders
+- project delivery folders
+- mixed Office and PDF knowledge folders
 
 ## Release
 
