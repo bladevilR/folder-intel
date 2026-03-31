@@ -19,6 +19,18 @@ Running `archive` creates:
 
 ## Quick start
 
+Install this skill into an OpenClaw workspace or shared skills directory, then use the commands below.
+
+Recommended shared install location on Windows:
+
+```text
+%USERPROFILE%\.openclaw\skills\folder-intel\
+```
+
+Keep `SKILL.md` and `scripts/` together in the same skill directory.
+
+### Commands
+
 Archive a folder:
 
 ```bash
@@ -48,3 +60,7 @@ python scripts/office_archive.py check
 - Default behavior avoids Microsoft Office COM for safety on end-user machines.
 - Legacy Office extraction is conservative to avoid repair popups and interactive prompts.
 - Re-runs are incremental and reuse cached extraction results when files have not changed.
+
+## Version
+
+Initial public release: `v0.1.0`
