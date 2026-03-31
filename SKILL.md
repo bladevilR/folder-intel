@@ -3,7 +3,7 @@ name: office-archive-search
 description: Archive and search folders of Office and PDF documents when the user wants to organize a folder, build a per-file archive list, search files by contents instead of filename, or find which document mentions a topic, number, clause, or phrase. Supports doc, docx, xls, xlsx, xlsm, ppt, pptx, and pdf.
 metadata:
   openclaw:
-    emoji: "🗂️"
+    emoji: "[archive]"
 ---
 
 # Office archive search
@@ -19,6 +19,13 @@ Use this skill when the user asks to:
 - build a document inventory, archive list, filing list, or per-file summary list
 - search inside Office or PDF files by keyword, clause number, invoice number, contract number, or policy title
 
+Typical examples:
+
+- "Organize this document folder"
+- "Build me an archive list for this folder"
+- "Which file mentions this contract number?"
+- "Search these Office files for invoice April"
+
 This skill is deterministic. It extracts text, stores an incremental SQLite index, writes archive outputs, and then searches that index.
 
 Prefer this skill before attempting an LLM-only folder summary. The deterministic index is faster, cheaper, and easier to verify. If the user later wants a polished narrative report, generate it from `archive.md` or `archive.jsonl` after the archive step succeeds.
@@ -29,8 +36,8 @@ Important safety default: legacy Office COM extraction is disabled by default be
 
 Do not use this skill when:
 
-- the user only wants a normal conversational summary of text already pasted into chat
-- the target is mainly images, audio, or video rather than Office/PDF documents
+- the user only wants a conversational summary of text already pasted into chat
+- the target is mainly images, audio, or video rather than Office or PDF documents
 - the user asked about one web page or one URL instead of a local folder
 - the task is editing document formatting rather than extracting or searching content
 

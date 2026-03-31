@@ -1,0 +1,7 @@
+interface:
+  display_name: "Folder Intel"
+  short_description: "Archive and search Office and PDF folders by content."
+  default_prompt: "Use $office-archive-search to archive this folder and find which files mention my keyword."
+
+policy:
+  allow_implicit_invocation: true
